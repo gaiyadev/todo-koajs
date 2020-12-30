@@ -1,7 +1,9 @@
 const TodosController = require('../../controllers/TodosController')
-var router = require('koa-router')();
+var router = require('koa-router')({
+    prefix: '/api/todos'
+});
 
 
-router.get('/add', TodosController.add);
+router.get('/', TodosController.add);
 
 module.exports = router;

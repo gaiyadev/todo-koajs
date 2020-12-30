@@ -4,6 +4,9 @@ var app = require('koa')()
   , views = require('koa-views')
   , onerror = require('koa-onerror');
 
+  require('dotenv').config()
+
+
 var index = require('./routes/index');
 var users = require('./routes/api/users');
 var todos = require('./routes/api/todos');
