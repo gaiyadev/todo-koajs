@@ -127,3 +127,24 @@ exports.delete_note = function * (next) {
                 }
         return
 })}
+
+
+
+exports.todo_get_one = function *(next)  {
+    Todo.findById(this.params).then(todo=> {
+        this.response.status = 200;
+        this.body = {
+                status: true,
+                todo: todo
+                }
+        return
+    }).catch(er=> {
+        this.response.status = 400;
+        this.body = {
+                status: false,
+                error: err
+                }
+        return
+    })
+        
+}

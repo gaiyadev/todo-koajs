@@ -12,4 +12,6 @@ router.put('/:id',TodosController.update)
 
 router.delete('/:id', TodosController.delete_note)
 
+router.get('/get/:id', TodosController.todo_get_one)
+
 module.exports = router;
