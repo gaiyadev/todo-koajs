@@ -4,6 +4,10 @@ var router = require('koa-router')({
 });
 
 
-router.get('/', TodosController.add);
+router.post('/', TodosController.add);
+
+router.get('/', TodosController.all_todo)
+
+router.put('/:id',TodosController.update)
 
 module.exports = router;

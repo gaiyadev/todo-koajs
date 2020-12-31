@@ -8,7 +8,7 @@ const User = require('../models/user')
  * USER REGISTRATION TO THE SYSTEM
  * ================================================================================================= *
  */
-exports.sign_up =  function *(next){
+exports.sign_up =  function  *(next){
 
     const { email, password } = this.request.body;
 
@@ -19,34 +19,37 @@ exports.sign_up =  function *(next){
                 error: "All fields are required"
                 }
         return
-    }
-    
+    }else {
+          
      User.findOne({ email: email }).then(user => {
         if (user) {
-            console.log('email exist')
+            console.log(user)
             this.response.status = 400; 
             this.body = {
                 status: false,
-                error: "Email already in use"
-                }
-            return false;               
+                error: "Email is  already in use"
+                }                
+            return;               
+        }else {
+            const newUser = new User({
+                email: email,
+                password: password,
+            });
+            User.newUser(newUser, (err, user) => {
+                if (err) return err; 
+                this.response.status = 201,        
+                this.body = {
+                    status: true,
+                    user: user,
+                    message: "Account created successfully"
+                    }
+                 return true
+                 });
         }
-
-        const newUser = new User({
-            email: email,
-            password: password,
-        });
-        User.newUser(newUser, (err, user) => {
-            if (err) return err; 
-            this.response.status = 200,        
-            this.body = {
-                status: true,
-                user: user,
-                message: "Account created successfully"
-                }
-             return true
-             });
+      
          }); 
+    }
+  
 
 }
 
@@ -75,8 +78,7 @@ exports.login = async function *(next){
                 error: "Invalid username or password",
             }
             return
-        } else {
-            //code
+        } else {       
 
             User.comparePassword(password, user.password, (err, isMatch) => {
                 if (err) throw err;
