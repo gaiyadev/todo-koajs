@@ -72,5 +72,58 @@ exports.all_todo= function * (next) {
             return
         }
 //update
-        console.log(id)
+ Todo.findByIdAndUpdate(id).then(todo => {
+    if (!todo) {
+        this.response.status = 400;
+            this.body = {
+                    status: false,
+                    error: "All fields are required"
+                    }
+            return
     }
+    todo.title = title;
+    todo.save();
+    this.response.status = 201;
+            this.body = {
+                    status: true,
+                    error: "added "
+                    }
+            return
+}).catch(err => {
+    this.response.status = 400;
+            this.body = {
+                    status: false,
+                    error: "All fields are required"
+                    }
+            return
+})
+}
+
+
+
+exports.delete_note = function * (next) {
+    const {id} = this.params;
+
+     Todo.findByIdAndDelete(id).then(todo => {
+        if (!todo) {
+           this.response.status = 400;
+            this.body = {
+                    status: false,
+                    error: "All fields are required"
+                    }
+            return
+        }
+        this.response.status = 200;
+        this.body = {
+                status: false,
+                error: "deleted succesfully"
+                }
+        return
+    }).catch(err => {
+        this.response.status = 400;
+        this.body = {
+                status: false,
+                error: err
+                }
+        return
+})}
