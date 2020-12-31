@@ -20,6 +20,7 @@ onerror(app);
 //   root: __dirname + '/views',
 //   default: 'jade'
 // }));
+
 app.use(require('koa-bodyparser')());
 app.use(json());
 app.use(logger());

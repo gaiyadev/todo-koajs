@@ -8,26 +8,28 @@ const User = require('../models/user')
  * USER REGISTRATION TO THE SYSTEM
  * ================================================================================================= *
  */
-exports.sign_up = async function *(next){
-    const {email, password}= this.request.body;
+exports.sign_up =  function *(next){
+
+    const { email, password } = this.request.body;
 
     if (!email || !password ) {
         this.response.status = 400;
         this.body = {
                 status: false,
-                error: "ALl fields are required"
+                error: "All fields are required"
                 }
         return
     }
-
-    await User.findOne({ email: email }).then(user => {
+    
+     User.findOne({ email: email }).then(user => {
         if (user) {
-            this.response.status = 400,        
+            console.log('email exist')
+            this.response.status = 400; 
             this.body = {
                 status: false,
-                message: "Email already in use"
+                error: "Email already in use"
                 }
-             return  
+            return false;               
         }
 
         const newUser = new User({
@@ -39,12 +41,12 @@ exports.sign_up = async function *(next){
             this.response.status = 200,        
             this.body = {
                 status: true,
-                users: user,
+                user: user,
                 message: "Account created successfully"
                 }
-             return
+             return true
              });
-        });    
+         }); 
 
 }
 
@@ -112,3 +114,8 @@ exports.login = async function *(next){
        
     });    
 }
+
+exports.test = function *(next) {
+        this.body = 'TODO API WITH kojs yess';
+        yield next;  
+      }

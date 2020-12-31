@@ -1,13 +1,20 @@
-var router = require('koa-router')();
+const UsersController = require('../../controllers/UsersController')
+var router = require('koa-router')({
+  prefix: '/api/users'
 
-router.prefix('/users');
+});
+
 
 router.get('/', function *(next) {
-  this.body = 'this is a users response!';
+  this.body = 'TODO API WITH koajs';
+  yield next;  
 });
 
-router.get('/bar', function *(next) {
-  this.body = 'this is a users/bar response!';
-});
+//router.post('/register', UsersController.test);
+
+router.post("/register", UsersController.sign_up);
+
+router.post('/login', UsersController.login);
+
 
 module.exports = router;
